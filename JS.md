@@ -76,3 +76,142 @@ console.log(newTwoDArr);                 //[1, 5, 9]
                                          //[3, 7, 11]
                                          //[4, 8, 12]
 ```
+
+### 迭代对数组排序
+
+```js
+function merge(left, right) {
+    let result = [];
+
+    while (left.length > 0 && right.length > 0) {
+        if (left[0] < right[0]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+    return result.concat(left).concat(right);
+}
+let d = [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 111, 400, 500, 600, 750, 800, 700, 600, 400];
+
+function mergeSort(items) {
+    if (items.length == 1) {
+        return items
+    }
+
+    let work = [];
+    for (let i = 0, len = items.length; i < len; i++) {
+        work.push([items[i]]);
+    }
+    work.push([]); //如果数组长度为奇数
+
+    for (let lim = len; lim > 1; lim = (lim + 1) / 2) {
+        for (let j = 0, k = 0; k < lim; k += 2, j++) {
+            work[j] = merge(work[k], work[k + 1]);
+        }
+        work[j] = []; //如果数组长度为奇数
+    }
+
+    return work[0]
+}
+mergeSort(d)
+```
+
+### Memoization法减少递归计算次数
+
+阶乘递归函数
+
+```js
+function factorial(n) {
+    if (n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+```
+
+针对该递归函数用`Memoization`法优化,在这里会用函数本身的一个`cache`来储存计算情况，达到减少计算次数的目的
+
+```js
+function memfactorial(n) {
+    if (!memfactorial.cache) {
+        memfactorial.cache = {
+            '0': 0,
+            '1': 1
+        }
+    }
+    if (!memfactorial.cache.hasOwnProperty(n)) {
+        memfactorial.cache[n] = n * memfactorial(n - 1);
+    }
+    return memfactorial.cache[n]
+}
+```
+
+## IE8兼容
+
+### bind函数
+
+```js
+if(!Function.prototype.bind){
+    Function.prototype.bind = function(){
+        if(typeof this !== 'function'){
+　　　　　　throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+　　　　}
+        var _this = this;
+        var obj = arguments[0];
+        var ags = Array.prototype.slice.call(arguments,1);
+        return function(){
+            _this.apply(obj,ags);
+        };
+    };
+}
+```
+
+#### addEventListener函数
+
+```js
+function addEventListener(ele,event,fn){
+    if(ele.addEventListener){
+        ele.addEventListener(event,fn,false);
+    }else{
+        ele.attachEvent('on'+event,fn.bind(ele));
+    }
+}
+```
+
+#### removeEventListener函数
+
+```js
+function removeEventListener(ele,event,fn){
+    if(ele.removeEventListener){
+        ele.removeEventListener(event,fn,false);
+    }else{
+        ele.detachEvent('on'+event,fn.bind(ele));
+    }
+}
+```
+
+## DVA状态码叙述
+
+```js
+const codeMessage = {
+    200: '服务器成功返回请求的数据。',
+    201: '新建或修改数据成功。',
+    202: '一个请求已经进入后台排队（异步任务）。',
+    204: '删除数据成功。',
+    400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+    401: '用户没有权限（令牌、用户名、密码错误）。',
+    403: '用户得到授权，但是访问是被禁止的。',
+    404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+    406: '请求的格式不可得。',
+    410: '请求的资源被永久删除，且不会再得到的。',
+    422: '当创建一个对象时，发生一个验证错误。',
+    500: '服务器发生错误，请检查服务器。',
+    502: '网关错误。',
+    503: '服务不可用，服务器暂时过载或维护。',
+    504: '网关超时。',
+};
+```
+
+## updating...
