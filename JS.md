@@ -56,22 +56,22 @@ let copyArr = [];
 copyArr = JSON.parse(JSON.stringify(arr));
 ```
 
-该方法可以深拷贝，但是如果数组中有项是undefined，那么转换后则会变为null
+该方法存在一个问题，如果数组中某项中的属性值为undefined，那么转换后则会变为null
 
 ### 二维数组的转换
 
 ```js
 const twoDArr = [[1,2,3,4],[5,6,7,8],[9,10,11,12]];
 let newTwoDArr = [];
-for(let i=0;i<4;i++){                    //循环四次，分为四组
-     let arr = []                        //建立空数组，储存里面的数组
-     for(let j=0;j<twoDArr.length;j++){  //循环原数组，取值
-          arr.push(twoDArr[j][i])        //往空数组填值
+for(let i=0;i<4;i++){
+     let arr = [];
+     for(let j=0;j<twoDArr.length;j++){
+          arr.push(twoDArr[j][i]);
      }
-     newTwoDArr.push(arr)                //往目标数组填值
-     arr = []
+     newTwoDArr.push(arr);
+     arr = [];
 }
-console.log(newTwoDArr)                  //[1, 5, 9]
+console.log(newTwoDArr);                 //[1, 5, 9]
                                          //[2, 6, 10]
                                          //[3, 7, 11]
                                          //[4, 8, 12]
