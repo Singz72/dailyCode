@@ -148,6 +148,75 @@ function memfactorial(n) {
 }
 ```
 
+## Promise
+
+实现一个简易版本Promise
+
+```js
+const PENDING = 'pending';
+const RESOLVED = 'resolved';
+const REJECTED = 'rejected';
+
+
+function MyPromise(fn) {
+    const that = this;
+    that.state = PENDING;
+    that.value = null;
+    that.resolvedCallbacks = [];
+    that.rejectedCallbacks = [];
+
+    function resolve(value) {
+        if (that.state === PENDING) {
+            that.state = RESOLVED;
+            that.value = value;
+            that.resolvedCallbacks.map(cb => cb(that.value));
+        }
+    }
+
+    function reject(value) {
+        if (that.state = PENDING) {
+            that.state = REJECTED;
+            that.value = value;
+            that.rejectedCallbacks.map(cb => cb(that.value));
+        }
+    }
+
+    try {
+        fn(resolve, reject)
+    } catch (e) {
+        reject(e)
+    }
+}
+MyPromise.prototype.then = function(resolve, reject) {
+    const that = this;
+    resolve = typeof resolve === 'function' ? resolve : v => v;
+    reject = typeof reject === 'function' ? reject : v => { throw v };
+
+    if (that.state === PENDING) {
+        that.resolvedCallbacks.push(resolve);
+        that.rejectedCallbacks.push(reject);
+    }
+    if (that.state === RESOLVED) {
+        resolve(that.value);
+    }
+    if (that.state === REJECTED) {
+        reject(that.value);
+    }
+}
+
+let newPromise = new MyPromise((resolve, reject) => {
+    setTimeout(() => {
+        resolve(111)
+    }, 1000);
+})
+
+newPromise.then((v) => {
+    console.log(v)
+}, (v) => {
+    console.log(v)
+})
+```
+
 ## IE8兼容
 
 ### bind函数
