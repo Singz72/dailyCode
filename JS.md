@@ -187,20 +187,20 @@ function MyPromise(fn) {
         reject(e)
     }
 }
-MyPromise.prototype.then = function(resolve, reject) {
+MyPromise.prototype.then = function(onResolve, onReject) {
     const that = this;
-    resolve = typeof resolve === 'function' ? resolve : v => v;
-    reject = typeof reject === 'function' ? reject : v => { throw v };
+    onResolve = typeof onResolve === 'function' ? onResolve : v => v;
+    onReject = typeof onReject === 'function' ? onReject : v => { throw v };
 
     if (that.state === PENDING) {
-        that.resolvedCallbacks.push(resolve);
-        that.rejectedCallbacks.push(reject);
+        that.resolvedCallbacks.push(onResolve);
+        that.rejectedCallbacks.push(onReject);
     }
     if (that.state === RESOLVED) {
-        resolve(that.value);
+        onResolve(that.value);
     }
     if (that.state === REJECTED) {
-        reject(that.value);
+        onReject(that.value);
     }
 }
 
