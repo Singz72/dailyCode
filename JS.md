@@ -237,7 +237,7 @@ if(!Function.prototype.bind){
 }
 ```
 
-#### addEventListener函数
+### addEventListener函数
 
 ```js
 function addEventListener(ele,event,fn){
@@ -249,7 +249,7 @@ function addEventListener(ele,event,fn){
 }
 ```
 
-#### removeEventListener函数
+### removeEventListener函数
 
 ```js
 function removeEventListener(ele,event,fn){
