@@ -148,6 +148,45 @@ function memfactorial(n) {
 }
 ```
 
+## 数字
+
+保留小数点
+
+```js
+const decimalPoint = (number, digits = 2) => {
+    let numStr = number + '';
+    return (numStr.trim().slice(
+        0,
+        numStr.indexOf('.') === -1 ?
+        numStr.length :
+        numStr.indexOf('.') + digits + 1
+    )) - 1 + 1
+}
+```
+
+判断ip输入正确与否
+
+```js
+const IP = (ip = '0.0.0.0') => {
+    ip = ip + '';
+    const re = /^\d+\.\d+\.\d+\.\d+$/;
+    const ipArr = ip.split(/\./);
+    if (re.test(ip)) {
+        return ipArr.reduce((bool, key) => {
+            if (key < 256) {
+                bool = true;
+            } else {
+                bool = false;
+                console.log('IP地址范围有误:' + key);
+            }
+        }, false);
+    } else {
+        console.log("IP地址格式有误！");
+    }
+}
+```
+
+
 ## Promise
 
 实现一个简易版本Promise
