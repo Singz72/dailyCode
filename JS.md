@@ -150,6 +150,12 @@ function memfactorial(n) {
 
 ## 数字
 
+返回指定范围的随机数(m-n之间)的公式
+
+```js
+Math.random()*(n-m)+m
+```
+
 保留小数点
 
 ```js
