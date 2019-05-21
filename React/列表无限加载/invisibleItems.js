@@ -116,20 +116,22 @@ export default class InvisibleItems extends Component {
       canScroll: false
     })
     // fetch mock
-    if (this.timer) clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      for (let i = to; i < to + 50; i++) {
-        list.push(i)
-      }
-      let _from = from
-      let _to = to + _below
-      this.setState({
-        canLoadmore: true,
-        canScroll: true,
-        paddingMarginHeight: (list.length - _to) * height
-      })
-      this.resetPreviewList(_from, _to, list)
-    }, 2000)
+    if (!this.timer) {
+      this.timer = setTimeout(() => {
+        for (let i = to; i < to + 50; i++) {
+          list.push(i)
+        }
+        let _from = from
+        let _to = to + _below
+        this.setState({
+          canLoadmore: true,
+          canScroll: true,
+          paddingMarginHeight: (list.length - _to) * height
+        })
+        this.resetPreviewList(_from, _to, list)
+        this.timer = null
+      }, 2000)
+    }
   }
 
   resetPreviewList(from, to, list) {
