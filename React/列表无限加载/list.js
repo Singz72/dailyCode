@@ -79,7 +79,6 @@ export default class InvisibleItems extends Component {
         to === list.length &&
         _height - _scrollTop - _contentHeight < distance
       ) {
-        console.log(canScroll)
         canScroll && this.loadmore(from, to)
       }
       return
@@ -110,7 +109,6 @@ export default class InvisibleItems extends Component {
   timer = null
 
   loadmore(from, to) {
-    //为嘛没能在多次调用时清除掉之前调用产生的计时器
     const { canLoadmore, _below, height, list } = this.state
     if (!canLoadmore) return
     this.setState({
@@ -120,7 +118,6 @@ export default class InvisibleItems extends Component {
     // fetch mock
     if (this.timer) clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      console.log('laodmore')
       for (let i = to; i < to + 50; i++) {
         list.push(i)
       }
@@ -170,18 +167,18 @@ export default class InvisibleItems extends Component {
         style={screenHeight}
       >
         <View
-          className='scrollView'
+          className='scroll'
           style={scrollView}
           ref={n => (this.scrollViewDom = n)}
         >
           {previewList.map((item, index) => {
             return (
-              <View key={index} className='listItem'>
+              <View key={index} className='scroll_item'>
                 <ProductCard info={item} />
               </View>
             )
           })}
-          <View class='load-more-gif'>loading...</View>
+          <View class='scroll_loading'>loading...</View>
         </View>
       </ScrollView>
     )
