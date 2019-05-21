@@ -1,0 +1,9 @@
+.card{
+  box-sizing: border-box;
+  padding: 20px;
+  height: 200px;
+  &_box{
+    border: 1px solid red;
+    height: 100%;
+  }
+}
