@@ -97,6 +97,52 @@ input{outline:none;}
     }
 ```
 
+#### 仿拼多多小程序指示点动画（未添加js）
+
+```html
+<div class="indicator">
+  <div class="indicator-move"></div>
+  <div class="indicator-gary"></div>
+  <div class="indicator-gary"></div>
+</div>
+```
+
+
+```css
+.indicator {
+    border-radius: 50px;
+    width: 20px;
+    height: 4px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+.indicator-move {
+    position: absolute;
+    background-color: #e41749;
+    border-radius: 50px;
+    width: 100%;
+    height: 100%;
+    animation: indicatorMove 2s alternate infinite ease-in-out;
+    /* animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+}
+.indicator-gary {
+    background-color: darkgray;
+    width: 35%;
+    height: 100%;
+    border-radius: 50px;
+}
+@keyframes indicatorMove {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(50%);
+    }
+}
+```
+
 #### 手机多终端适配 media query[web app iphone4 iphone5 iphone6 响应式布局 适配代码](http://club.zoomla.cn/PItem?id=12594)
 
 ```css
