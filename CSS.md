@@ -141,6 +141,29 @@ input{outline:none;}
       transform: translateX(50%);
     }
 }
+
+//方法二
+@keyframes indicatorMove {
+        0% {
+          transform-origin: 0 0;
+          transform: scaleX(0.4);
+        }
+        49% {
+          transform-origin: 0 0;
+          transform: scaleX(1);
+        }
+        50% {
+          transform: scaleX(1);
+        }
+        51% {
+          transform-origin: 100% 0;
+          transform: scaleX(1);
+        }
+        100% {
+          transform-origin: 100% 0;
+          transform: scaleX(0.4);
+        }
+      }
 ```
 
 #### 手机多终端适配 media query[web app iphone4 iphone5 iphone6 响应式布局 适配代码](http://club.zoomla.cn/PItem?id=12594)
