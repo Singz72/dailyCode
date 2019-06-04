@@ -166,6 +166,66 @@ input{outline:none;}
 }
 ```
 
+#### 小优惠券
+
+```html
+<div class="coupon">
+      <span>满2000减10</span>
+      <div class="coupon-circle coupon-left-circle">
+        <div class="coupon-cir coupon-left-cir"></div>
+      </div>
+      <div class="coupon-circle coupon-right-circle">
+        <div class="coupon-cir coupon-right-cir"></div>
+      </div>
+    </div>
+```
+
+```css
+.coupon {
+        height: 31px;
+        border: 1px solid #ff6b00;
+        border-radius: 4px;
+        font-size: 22px;
+        color: #ff6b00;
+        box-sizing: border-box;
+        padding: 0 10px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        float: left;
+      }
+      .coupon-circle {
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        top: 50%;
+        background: #fff;
+      }
+      .coupon-cir {
+        border-radius: 200px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ff6b00;
+        border-top-color: #fff;
+        border-left-color: #fff;
+      }
+      .coupon-left-circle {
+        left: -1px;
+        transform: translate(-50%, -50%);
+      }
+      .coupon-right-circle {
+        right: -1px;
+        transform: translate(50%, -50%);
+      }
+      .coupon-left-cir {
+        transform: rotate(-45deg);
+      }
+      .coupon-right-cir {
+        transform: rotate(135deg);
+      }
+```
+
 #### 手机多终端适配 media query[web app iphone4 iphone5 iphone6 响应式布局 适配代码](http://club.zoomla.cn/PItem?id=12594)
 
 ```css
