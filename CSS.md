@@ -170,60 +170,205 @@ input{outline:none;}
 
 ```html
 <div class="coupon">
-      <span>满2000减10</span>
-      <div class="coupon-circle coupon-left-circle">
-        <div class="coupon-cir coupon-left-cir"></div>
-      </div>
-      <div class="coupon-circle coupon-right-circle">
-        <div class="coupon-cir coupon-right-cir"></div>
-      </div>
-    </div>
+ <span>满2000减10</span>
+ <div class="coupon-circle coupon-left-circle">
+    <div class="coupon-cir coupon-left-cir"></div>
+ </div>
+ <div class="coupon-circle coupon-right-circle">
+   <div class="coupon-cir coupon-right-cir"></div>
+ </div>
+</div>
 ```
 
 ```css
 .coupon {
-        height: 31px;
-        border: 1px solid #ff6b00;
-        border-radius: 4px;
-        font-size: 22px;
-        color: #ff6b00;
-        box-sizing: border-box;
-        padding: 0 10px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        float: left;
-      }
-      .coupon-circle {
-        width: 10px;
-        height: 10px;
-        position: absolute;
-        top: 50%;
-        background: #fff;
-      }
-      .coupon-cir {
-        border-radius: 200px;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        border: 1px solid #ff6b00;
-        border-top-color: #fff;
-        border-left-color: #fff;
-      }
-      .coupon-left-circle {
-        left: -1px;
-        transform: translate(-50%, -50%);
-      }
-      .coupon-right-circle {
-        right: -1px;
-        transform: translate(50%, -50%);
-      }
-      .coupon-left-cir {
-        transform: rotate(-45deg);
-      }
-      .coupon-right-cir {
-        transform: rotate(135deg);
-      }
+   height: 31px;
+   border: 1px solid #ff6b00;
+   border-radius: 4px;
+   font-size: 22px;
+   color: #ff6b00;
+   box-sizing: border-box;
+   padding: 0 10px;
+   position: relative;
+   display: flex;
+   align-items: center;
+   float: left;
+}
+.coupon-circle {
+   width: 10px;
+   height: 10px;
+   position: absolute;
+   top: 50%;
+   background: #fff;
+}
+.coupon-cir {
+   border-radius: 200px;
+   box-sizing: border-box;
+   width: 100%;
+   height: 100%;
+   border: 1px solid #ff6b00;
+   border-top-color: #fff;
+   border-left-color: #fff;
+}
+.coupon-left-circle {
+   left: -1px;
+   transform: translate(-50%, -50%);
+}
+.coupon-right-circle {
+   right: -1px;
+   transform: translate(50%, -50%);
+}
+.coupon-left-cir {
+   transform: rotate(-45deg);
+}
+.coupon-right-cir {
+   transform: rotate(135deg);
+}
+```
+
+#### 大优惠券
+
+```html
+<div class="collect-coupon">
+      <div class="collect-coupon-box">
+        <div class="collect-coupon-left">
+          <div class="collect-coupon-content">
+            <div class="collect-coupon-amount">
+              ¥ <span class="collect-coupon-num">30</span>
+            </div>
+            <div class="collect-coupon-des">
+              满1000-200
+            </div>
+          </div>
+          <div class="collect-coupon-date">
+            2019.04.01-2019.10.01
+          </div>
+        </div>
+        <div class="collect-coupon-dashed"></div>
+        <div class="collect-coupon-right">
+          <div class="collect-coupon-state">
+            立即领取
+          </div>
+        </div>
+        <div class="collect-coupon-top">
+          <div class="collect-coupon-top-circle"></div>
+        </div>
+        <div class="collect-coupon-bottom">
+          <div class="collect-coupon-bottom-circle"></div>
+        </div>
+      </div>
+    </div>
+```
+
+```css  
+//其中padding-box需要重点理解
+.collect-coupon {
+  box-sizing: border-box;
+  background: #fef2e6;
+  border-radius: 8px;
+  padding-left: 40px;
+  color: #ff6b00;
+  height: 160px;
+  width: 690px;
+  position: relative;
+  font-size: 32px;
+}
+.collect-coupon-box {
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+.collect-coupon-left {
+  width: 65%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 44px 0 27px;
+}
+.collect-coupon-content {
+  display: flex;
+}
+.collect-coupon-amount {
+  padding-right: 20px;
+}
+.collect-coupon-num {
+  font-size: 72px;
+  line-height: 0;
+}
+.collect-coupon-des {
+  display: flex;
+  align-items: center;
+  /* border-left: 1px solid #ff6b00; */
+  padding-left: 20px;
+  font-size: 30px;
+  position: relative;
+}
+.collect-coupon-des::after {
+  content: '';
+  position: absolute;
+  height: 35px;
+  width: 1px;
+  background: #ff6b00;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.collect-coupon-date {
+  font-size: 22px;
+  margin-top: 17px;
+}
+.collect-coupon-dashed {
+  width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding-right: 1px;
+  background: linear-gradient(transparent, transparent) padding-box,
+    repeating-linear-gradient(
+      0deg,
+      #ff6b00 0,
+      #ff6b00 0.35em,
+      #fef2e6 0,
+      #fef2e6 0.65em
+    );
+}
+.collect-coupon-right {
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.collect-coupon-top,
+.collect-coupon-bottom {
+  position: absolute;
+  left: 65%;
+  width: 25px;
+  height: 25px;
+}
+.collect-coupon-top {
+  top: 0;
+  transform: translate(-50%, -50%);
+}
+.collect-coupon-bottom {
+  bottom: 0;
+  transform: translate(-50%, 50%);
+}
+.collect-coupon-top-circle,
+.collect-coupon-bottom-circle {
+  border-radius: 200px;
+  /* border: 1px solid transparent; */
+  background: #fff;
+  border-right-color: #ff6b00;
+  border-bottom-color: #ff6b00;
+  width: 100%;
+  height: 100%;
+}
+.collect-coupon-top-circle {
+  transform: rotate(45deg);
+}
+
+.collect-coupon-bottom-circle {
+  transform: rotate(-135deg);
+}
+
 ```
 
 #### 手机多终端适配 media query[web app iphone4 iphone5 iphone6 响应式布局 适配代码](http://club.zoomla.cn/PItem?id=12594)
