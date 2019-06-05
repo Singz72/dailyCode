@@ -297,7 +297,6 @@ input{outline:none;}
 .collect-coupon-des {
   display: flex;
   align-items: center;
-  /* border-left: 1px solid #ff6b00; */
   padding-left: 20px;
   font-size: 30px;
   position: relative;
@@ -354,7 +353,6 @@ input{outline:none;}
 .collect-coupon-top-circle,
 .collect-coupon-bottom-circle {
   border-radius: 200px;
-  /* border: 1px solid transparent; */
   background: #fff;
   border-right-color: #ff6b00;
   border-bottom-color: #ff6b00;
