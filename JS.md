@@ -3,71 +3,71 @@
 #### 返回指定范围的随机数(m-n 之间)的公式
 
 ```js
-Math.random() * (n - m) + m
+Math.random() * (n - m) + m;
 ```
 
 #### 保留小数点
 
 ```js
 const decimalPoint = (number, digits = 2) => {
-  let numStr = number + ''
+  let numStr = number + "";
   return (
     numStr
       .trim()
       .slice(
         0,
-        numStr.indexOf('.') === -1
+        numStr.indexOf(".") === -1
           ? numStr.length
-          : numStr.indexOf('.') + digits + 1
+          : numStr.indexOf(".") + digits + 1
       ) -
     1 +
     1
-  )
-}
+  );
+};
 ```
 
 #### 判断 ip 输入正确与否
 
 ```js
-const IP = (ip = '0.0.0.0') => {
-  ip = ip + ''
-  const re = /^\d+\.\d+\.\d+\.\d+$/
-  const ipArr = ip.split(/\./)
+const IP = (ip = "0.0.0.0") => {
+  ip = ip + "";
+  const re = /^\d+\.\d+\.\d+\.\d+$/;
+  const ipArr = ip.split(/\./);
   if (re.test(ip)) {
     return ipArr.reduce((bool, key) => {
       if (key < 256) {
-        bool = true
+        bool = true;
       } else {
-        bool = false
-        console.log('IP地址范围有误:' + key)
+        bool = false;
+        console.log("IP地址范围有误:" + key);
       }
-    }, false)
+    }, false);
   } else {
-    console.log('IP地址格式有误！')
+    console.log("IP地址格式有误！");
   }
-}
+};
 ```
 
 #### 状态码叙述
 
 ```js
 const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。'
-}
+  200: "服务器成功返回请求的数据。",
+  201: "新建或修改数据成功。",
+  202: "一个请求已经进入后台排队（异步任务）。",
+  204: "删除数据成功。",
+  400: "发出的请求有错误，服务器没有进行新建或修改数据的操作。",
+  401: "用户没有权限（令牌、用户名、密码错误）。",
+  403: "用户得到授权，但是访问是被禁止的。",
+  404: "发出的请求针对的是不存在的记录，服务器没有进行操作。",
+  406: "请求的格式不可得。",
+  410: "请求的资源被永久删除，且不会再得到的。",
+  422: "当创建一个对象时，发生一个验证错误。",
+  500: "服务器发生错误，请检查服务器。",
+  502: "网关错误。",
+  503: "服务不可用，服务器暂时过载或维护。",
+  504: "网关超时。"
+};
 ```
 
 #### 防抖
@@ -79,26 +79,25 @@ const codeMessage = {
  * @param wait 延迟执行毫秒数
  * @param immediate true 表立即执行，false 表非立即执行
  */
-function debounce(func,wait,immediate) {
-    let timeout;
-    return function () {
-        let context = this;
-        let args = arguments;
+function debounce(func, wait, immediate) {
+  let timeout;
+  return function() {
+    let context = this;
+    let args = arguments;
 
-        if (timeout) clearTimeout(timeout);
-        if (immediate) {
-            let callNow = !timeout;
-            timeout = setTimeout(() => {
-                timeout = null;
-            }, wait)
-            if (callNow) func.apply(context, args)
-        }
-        else {
-            timeout = setTimeout(() => {
-                func.apply(context, args)
-            }, wait);
-        }
+    if (timeout) clearTimeout(timeout);
+    if (immediate) {
+      let callNow = !timeout;
+      timeout = setTimeout(() => {
+        timeout = null;
+      }, wait);
+      if (callNow) func.apply(context, args);
+    } else {
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
     }
+  };
 }
 //应用：1.search搜索联想，用户在不断输入值时，用防抖来节约请求资源。
 //     2.window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次
@@ -115,28 +114,28 @@ function debounce(func,wait,immediate) {
  */
 function throttle(func, wait, type) {
   if (type === 1) {
-    let previous = 0
+    let previous = 0;
     return function() {
-      let context = this
-      let args = arguments
-      let now = Date.now()
+      let context = this;
+      let args = arguments;
+      let now = Date.now();
       if (now - previous > wait) {
-        func.apply(context, args)
-        previous = now
+        func.apply(context, args);
+        previous = now;
       }
-    }
+    };
   } else if (type === 2) {
-    let timeout
+    let timeout;
     return function() {
-      let context = this
-      let args = arguments
+      let context = this;
+      let args = arguments;
       if (!timeout) {
         timeout = setTimeout(() => {
-          timeout = null
-          func.apply(context, args)
-        }, wait)
+          timeout = null;
+          func.apply(context, args);
+        }, wait);
       }
-    }
+    };
   }
 }
 // 区别： 函数节流不管事件触发有多频繁，都会保证在规定时间内一定会执行一次真正的事件处理函数，而函数防抖只是在最后一次事件后才触发一次函数。 比如在页面的无限加载场景下，我们需要用户在滚动页面时，每隔一段时间发一次 Ajax 请求，而不是在用户停下滚动页面操作时才去请求数据。这样的场景，就适合用节流技术来实现。
@@ -148,24 +147,24 @@ function throttle(func, wait, type) {
 #### 复制数组-浅拷贝
 
 ```js
-const arr = [1, 2, 3]
-let copyArr = []
+const arr = [1, 2, 3];
+let copyArr = [];
 
-copyArr = arr.slice()
-copyArr = arr.concat()
-Array.prototype.push.apply(copyArr, arr)
-copyArr = arr.map(v => v)
-array = Array.from(arr)
+copyArr = arr.slice();
+copyArr = arr.concat();
+Array.prototype.push.apply(copyArr, arr);
+copyArr = arr.map(v => v);
+array = Array.from(arr);
 //以上方法均为浅拷贝，只能对每一项是原始类型的数据的数组进行拷贝，如果其中某些项包含引用类型，如数组（js 里的二维数组）和对象等，则拷贝后的也仅仅是引用原项
 ```
 
 #### 复制数组-深拷贝
 
 ```js
-const objArr = [{ id: 1 }, { id: 2 }, { id: 3 }]
-let copyArr = []
+const objArr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+let copyArr = [];
 
-copyArr = JSON.parse(JSON.stringify(arr))
+copyArr = JSON.parse(JSON.stringify(arr));
 //该方法存在一个问题，如果数组中某项中的属性值为 undefined，那么转换后则会变为 null
 ```
 
@@ -174,9 +173,9 @@ copyArr = JSON.parse(JSON.stringify(arr))
 ```js
 const twoDArr = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
 let newTwoDArr = []
-for (let i = 0; i < 4; i++) {
+for (let i = 0 i < 4 i++) {
   let arr = []
-  for (let j = 0; j < twoDArr.length; j++) {
+  for (let j = 0 j < twoDArr.length j++) {
     arr.push(twoDArr[j][i])
   }
   newTwoDArr.push(arr)
@@ -233,13 +232,13 @@ function mergeSort(items) {
   }
 
   let work = []
-  for (let i = 0, len = items.length; i < len; i++) {
+  for (let i = 0, len = items.length i < len i++) {
     work.push([items[i]])
   }
   work.push([]) //如果数组长度为奇数
 
-  for (let lim = len; lim > 1; lim = (lim + 1) / 2) {
-    for (let j = 0, k = 0; k < lim; k += 2, j++) {
+  for (let lim = len lim > 1 lim = (lim + 1) / 2) {
+    for (let j = 0, k = 0 k < lim k += 2, j++) {
       work[j] = merge(work[k], work[k + 1])
     }
     work[j] = [] //如果数组长度为奇数
@@ -255,9 +254,9 @@ mergeSort(d)
 ```js
 function factorial(n) {
   if (n == 0) {
-    return 1
+    return 1;
   } else {
-    return n * factorial(n - 1)
+    return n * factorial(n - 1);
   }
 }
 ```
@@ -268,89 +267,89 @@ function factorial(n) {
 function memfactorial(n) {
   if (!memfactorial.cache) {
     memfactorial.cache = {
-      '0': 0,
-      '1': 1
-    }
+      "0": 0,
+      "1": 1
+    };
   }
   if (!memfactorial.cache.hasOwnProperty(n)) {
-    memfactorial.cache[n] = n * memfactorial(n - 1)
+    memfactorial.cache[n] = n * memfactorial(n - 1);
   }
-  return memfactorial.cache[n]
+  return memfactorial.cache[n];
 }
 ```
 
 #### 实现一个简易版本 Promise
 
 ```js
-const PENDING = 'pending'
-const RESOLVED = 'resolved'
-const REJECTED = 'rejected'
+const PENDING = "pending";
+const RESOLVED = "resolved";
+const REJECTED = "rejected";
 
 function MyPromise(fn) {
-  const that = this
-  that.state = PENDING
-  that.value = null
-  that.resolvedCallbacks = []
-  that.rejectedCallbacks = []
+  const that = this;
+  that.state = PENDING;
+  that.value = null;
+  that.resolvedCallbacks = [];
+  that.rejectedCallbacks = [];
 
   function resolve(value) {
     if (that.state === PENDING) {
-      that.state = RESOLVED
-      that.value = value
-      that.resolvedCallbacks.map(cb => cb(that.value))
+      that.state = RESOLVED;
+      that.value = value;
+      that.resolvedCallbacks.map(cb => cb(that.value));
     }
   }
 
   function reject(value) {
     if ((that.state = PENDING)) {
-      that.state = REJECTED
-      that.value = value
-      that.rejectedCallbacks.map(cb => cb(that.value))
+      that.state = REJECTED;
+      that.value = value;
+      that.rejectedCallbacks.map(cb => cb(that.value));
     }
   }
 
   try {
-    fn(resolve, reject)
+    fn(resolve, reject);
   } catch (e) {
-    reject(e)
+    reject(e);
   }
 }
 MyPromise.prototype.then = function(onResolve, onReject) {
-  const that = this
-  onResolve = typeof onResolve === 'function' ? onResolve : v => v
+  const that = this;
+  onResolve = typeof onResolve === "function" ? onResolve : v => v;
   onReject =
-    typeof onReject === 'function'
+    typeof onReject === "function"
       ? onReject
       : v => {
-          throw v
-        }
+          throw v;
+        };
 
   if (that.state === PENDING) {
-    that.resolvedCallbacks.push(onResolve)
-    that.rejectedCallbacks.push(onReject)
+    that.resolvedCallbacks.push(onResolve);
+    that.rejectedCallbacks.push(onReject);
   }
   if (that.state === RESOLVED) {
-    onResolve(that.value)
+    onResolve(that.value);
   }
   if (that.state === REJECTED) {
-    onReject(that.value)
+    onReject(that.value);
   }
-}
+};
 
 let newPromise = new MyPromise((resolve, reject) => {
   setTimeout(() => {
-    resolve(111)
-  }, 1000)
-})
+    resolve(111);
+  }, 1000);
+});
 
 newPromise.then(
   v => {
-    console.log(v)
+    console.log(v);
   },
   v => {
-    console.log(v)
+    console.log(v);
   }
-)
+);
 ```
 
 #### bind 函数
@@ -358,18 +357,18 @@ newPromise.then(
 ```js
 if (!Function.prototype.bind) {
   Function.prototype.bind = function() {
-    if (typeof this !== 'function') {
+    if (typeof this !== "function") {
       throw new TypeError(
-        'Function.prototype.bind - what is trying to be bound is not callable'
-      )
+        "Function.prototype.bind - what is trying to be bound is not callable"
+      );
     }
-    var _this = this
-    var obj = arguments[0]
-    var ags = Array.prototype.slice.call(arguments, 1)
+    var _this = this;
+    var obj = arguments[0];
+    var ags = Array.prototype.slice.call(arguments, 1);
     return function() {
-      _this.apply(obj, ags)
-    }
-  }
+      _this.apply(obj, ags);
+    };
+  };
 }
 ```
 
@@ -378,9 +377,9 @@ if (!Function.prototype.bind) {
 ```js
 function addEventListener(ele, event, fn) {
   if (ele.addEventListener) {
-    ele.addEventListener(event, fn, false)
+    ele.addEventListener(event, fn, false);
   } else {
-    ele.attachEvent('on' + event, fn.bind(ele))
+    ele.attachEvent("on" + event, fn.bind(ele));
   }
 }
 ```
@@ -390,9 +389,9 @@ function addEventListener(ele, event, fn) {
 ```js
 function removeEventListener(ele, event, fn) {
   if (ele.removeEventListener) {
-    ele.removeEventListener(event, fn, false)
+    ele.removeEventListener(event, fn, false);
   } else {
-    ele.detachEvent('on' + event, fn.bind(ele))
+    ele.detachEvent("on" + event, fn.bind(ele));
   }
 }
 ```
