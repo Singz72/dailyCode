@@ -452,31 +452,33 @@ window.addEventListener(
   - [移动端自适应方案](http://f2e.souche.com/blog/yi-dong-duan-zi-gua-ying-fang-an/)
   - [MobileWeb 适配总结](http://www.w3ctech.com/topic/979)
   - [移动端 web app 自适应布局探索与总结](http://www.html-js.com/article/JavaScript-learning-notes%203234)
-  - 公式
-    ```javascript
-    var PAGE_MAX_WIDTH = 1280,
-      BASE_FONT_SIZE = 50;
-    (function() {
-      function n() {
-        e.fontSize =
-          Math.min(
-            (window.innerWidth / PAGE_MAX_WIDTH) * BASE_FONT_SIZE,
-            BASE_FONT_SIZE
-          ) + "px";
-      }
-      var e = document.documentElement.style;
-      window.addEventListener("load", n),
-        window.addEventListener("resize", n),
-        n();
-    })();
-    ```
+
+  公式
+
+  ```javascript
+  var PAGE_MAX_WIDTH = 1280,
+    BASE_FONT_SIZE = 50;
+  (function() {
+    function n() {
+      e.fontSize =
+        Math.min(
+          (window.innerWidth / PAGE_MAX_WIDTH) * BASE_FONT_SIZE,
+          BASE_FONT_SIZE
+        ) + "px";
+    }
+    var e = document.documentElement.style;
+    window.addEventListener("load", n),
+      window.addEventListener("resize", n),
+      n();
+  })();
+  ```
 
 #### css 相关总结网址
 
-  - [css常用效果总结](http://www.haorooms.com/post/css_common)
-  - [css的不常用效果总结](http://www.haorooms.com/post/css_notuse_common)
-  - [css开发技巧](http://www.haorooms.com/post/css_skill)
-  - [重温css的选择器](http://www.haorooms.com/post/css_selectelement)
-  - [css的变量和继承](http://www.haorooms.com/post/css_inherit_bl)
-  - [css3的混合模式](http://www.haorooms.com/post/css3_mixblendmode)
-  - [css中伪元素before或after中content的特殊用法attr](http://www.haorooms.com/post/content_attr)
+- [css 常用效果总结](http://www.haorooms.com/post/css_common)
+- [css 的不常用效果总结](http://www.haorooms.com/post/css_notuse_common)
+- [css 开发技巧](http://www.haorooms.com/post/css_skill)
+- [重温 css 的选择器](http://www.haorooms.com/post/css_selectelement)
+- [css 的变量和继承](http://www.haorooms.com/post/css_inherit_bl)
+- [css3 的混合模式](http://www.haorooms.com/post/css3_mixblendmode)
+- [css 中伪元素 before 或 after 中 content 的特殊用法 attr](http://www.haorooms.com/post/content_attr)
