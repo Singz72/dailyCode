@@ -383,6 +383,249 @@ input {
 }
 ```
 
+#### 大优惠券-2
+
+```html
+<div class="coupon">
+      <div class="coupon-box">
+        <div class="coupon-left">
+          <div class="coupon-content">
+            <div class="coupon-amount">
+              ¥ <span class="coupon-num">20</span>
+            </div>
+            <div class="coupon-amount-text">
+              满1000可用
+            </div>
+          </div>
+        </div>
+        <div class="coupon-dashed"></div>
+        <div class="coupon-right">
+          <div class="coupon-info-button">
+            <div class="coupon-info">
+              <span class="coupon-text">满1000减30</span>
+              <span class="coupon-date">2019.04.01-2019.10.01</span>
+            </div>
+            <div class="coupon-button-box">
+              <div class="coupon-button">立即使用</div>
+              <!-- 此处在已使用时显示图片 -->
+              <!-- <div class="coupon-state-receive"></div> -->
+            </div>
+          </div>
+          <!-- 没有使用说明时以下内容需要隐藏 -->
+          <!-- 开始 -->
+          <div class="coupon-right-dashed"></div>
+          <div class="coupon-desc">
+            <span>使用说明</span>
+            <img src="jiantou.png" alt="展开箭头" class="coupon-jianotu">
+          </div>
+          <!-- 结束 -->
+        </div>
+        <div class="coupon-top">
+          <div class="coupon-top-circle"></div>
+        </div>
+        <div class="coupon-bottom">
+          <div class="coupon-bottom-circle coupon-expand-show"></div>
+        </div>
+      </div>
+      <div class="expand coupon-expand-show">
+          <span>同一用户限领1张，自营店铺及其他特例商品不可使用</span>
+        </div>
+    </div>
+```
+
+```css
+.coupon {
+  box-sizing: border-box;
+  color: #ff6b00;
+  width: 690px;
+  font-size: 32px;
+  font-family: PingFang-SC-Medium;
+}
+.coupon-box {
+  height: 210px;
+  position: relative;
+  display: flex;
+  border: 1px solid #ffc9c2;
+  background: #fffafa;
+  border-radius: 8px;
+  z-index: 1;
+}
+.coupon-left {
+  width: 230px;
+  height: 100%;
+  background-color: #fff2ee;
+  border-radius: 8px;
+}
+.coupon-content {
+  display: flex;
+  flex-wrap: wrap;
+  color: #fd614c;
+  padding: 35px;
+}
+.coupon-amount {
+  width: 100%;
+  text-align: center;
+}
+.coupon-num {
+  font-family: PingFangSC-Semibold;
+  font-size: 72px;
+  text-align: center;
+  line-height: 100px;
+}
+.coupon-amount-text {
+  width: 100%;
+  font-size: 30px;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.coupon-right {
+  width: 35%;
+  flex: 1;
+}
+.coupon-info-button {
+  display: flex;
+  box-sizing: border-box;
+  padding: 32px 21px 30px 23px;
+  align-items: flex-end;
+}
+.coupon-info {
+  display: flex;
+  color: #333333;
+  flex-wrap: wrap;
+}
+.coupon-text {
+  width: 100%;
+  font-size: 30px;
+  margin-bottom: 12px;
+  line-height: 42px;
+}
+.coupon-date {
+  width: 100%;
+  font-size: 22px;
+  line-height: 46px;
+}
+.coupon-button-box {
+  display: flex;
+  height: 100%;
+}
+.coupon-button {
+  font-size: 26px;
+  color: #ffffff;
+  background-image: linear-gradient(-90deg, #fd4d37 5%, #fd7953 100%);
+  border-radius: 23px;
+  padding: 4px 15px;
+  box-sizing: border-box;
+  width: 134px;
+  height: 46px;
+  line-height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.coupon-state-receive {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 92px;
+  height: 80px;
+}
+.coupon-desc {
+  font-size: 24px;
+  color: #666666;
+  padding: 8px 28px 9px 23px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.coupon-jianotu {
+  height: 16px;
+}
+.expand {
+  width: 100%;
+  top: 100%;
+  transform: translateY(-10px);
+  left: -1px;
+  border: 1px solid #ffc9c2;
+  font-size: 24px;
+  color: #999999;
+  padding: 29px 20px 19px;
+  box-sizing: border-box;
+}
+.coupon-dashed {
+  width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding-right: 1px;
+  background: linear-gradient(transparent, transparent) padding-box,
+    repeating-linear-gradient(
+      0deg,
+      #ffc9c2 0,
+      #ffc9c2 0.2em,
+      #fef2e6 0,
+      #fef2e6 0.33em
+    );
+}
+.coupon-right-dashed {
+  width: 100%;
+  height: 0;
+  box-sizing: border-box;
+  padding-top: 1px;
+  background: linear-gradient(transparent, transparent) padding-box,
+    repeating-linear-gradient(
+      90deg,
+      #ffc9c2 0,
+      #ffc9c2 0.2em,
+      #fef2e6 0,
+      #fef2e6 0.33em
+    );
+}
+.coupon-top,
+.coupon-bottom {
+  position: absolute;
+  left: 230px;
+  width: 15px;
+  height: 15px;
+}
+.coupon-top {
+  top: -2px;
+  transform: translate(-50%, -50%);
+}
+.coupon-bottom {
+  bottom: 0px;
+  transform: translate(-50%, 50%);
+}
+.coupon-top-circle,
+.coupon-bottom-circle {
+  border-radius: 200px;
+  background: #fff;
+  border-right-color: #ff6b00;
+  border-bottom-color: #ff6b00;
+  width: 100%;
+  height: 100%;
+}
+.coupon-top-circle {
+  transform: rotate(45deg);
+  border: 1px solid transparent;
+  border-bottom-color: #ffc9c2;
+  border-right-color: #ffc9c2;
+}
+
+.coupon-bottom-circle {
+  transform: rotate(-135deg);
+  border: 1px solid transparent;
+  border-bottom-color: #ffc9c2;
+  border-right-color: #ffc9c2;
+}
+.coupon-expand-show {
+  background-color: #fffafa;
+  display: show;
+}
+
+```
+
 #### 手机多终端适配 media query[web app iphone4 iphone5 iphone6 响应式布局 适配代码](http://club.zoomla.cn/PItem?id=12594)
 
 ```css
