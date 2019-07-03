@@ -90,6 +90,31 @@ input {
 }
 ```
 
+#### 高度随宽度自适应
+
+主要是根据padding取百分比时，是根据父级宽度来的，可以在某些盒子或者图片需要宽高同比例时使用
+当如果父级有flex属性，好像不起作用，需要测试一下
+
+```html
+<div class='is-div'>
+  <img src='...' alt='' />
+</div>
+```
+
+```css
+.is-div{
+  padding:30% 0 0;
+  position:relative;
+}
+.is-div img{
+  position:absolute;
+  width;100%;
+  height:100%;
+  left:0;
+  top:0;
+}
+```
+
 #### 实现一个半圆
 
 ```css
