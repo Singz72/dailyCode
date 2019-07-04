@@ -18,13 +18,54 @@ const decimalPoint = (number, digits = 2) => {
         0,
         numStr.indexOf(".") === -1
           ? numStr.length
-          : numStr.indexOf(".") + digits + 1
-      ) -
-    1 +
-    1
+          : numStr.indexOf(".") + digits + 1 
+     ) - 1 + 1
   );
 };
 ```
+
+#### 防止滚动穿透
+
+准备的css
+
+```css
+.modal_open {
+  position: fixed;
+  height: 100%;
+}
+```
+
+```js
+let ModalHelper = (function(bodyClass) {
+    let scrollTop;
+    return {
+        afterOpen: function() {
+            scrollTop = document.scrollingElement.scrollTop  ||
+                        document.documentElement.scrollTop || 
+                        document.body.scrollTop;
+            document.body.classList.add(bodyClass);
+            document.body.style.top = -scrollTop + 'px';
+        },
+        beforeClose: function() {
+            document.body.classList.remove(bodyClass);
+            document.scrollingElement.scrollTop = document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
+        }
+    };
+})('modal_open');
+
+// method
+modalSwitch: function(){
+    let self = this;
+    if( self.switchFlag === 'close' ){
+        ModalHelper.afterOpen();
+        self.switchFlag = 'open';
+    }else{
+        ModalHelper.beforeClose();
+        self.switchFlag = 'close';
+    }
+}
+```
+
 
 #### 判断 ip 输入正确与否
 
