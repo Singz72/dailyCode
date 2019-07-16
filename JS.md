@@ -136,25 +136,32 @@ const codeMessage = {
  * @param wait 延迟执行毫秒数
  * @param immediate true 表立即执行，false 表非立即执行
  */
-function debounce(func, wait, immediate) {
-  let timeout;
-  return function() {
+//ps:当某些函数具有返回值时，在不使用全局变量的情况下该怎么拿到这个返回值呢？？？如果有这种需求，只能包裹函数，其中一个函数用以返回值，另一个用以使用该值？？？
+function debounce(fn,wait,immediate){
+  let timer;
+  let result;
+  let debounced = function(){
     let context = this;
     let args = arguments;
-
-    if (timeout) clearTimeout(timeout);
-    if (immediate) {
-      let callNow = !timeout;
-      timeout = setTimeout(() => {
-        timeout = null;
+    if(timer) clearTimeout(timer);
+    if(immediate){
+      const callNow = !timer;
+      timer = setTimeout(() => {
+        timer = null;
       }, wait);
-      if (callNow) func.apply(context, args);
-    } else {
-      timeout = setTimeout(() => {
-        func.apply(context, args);
-      }, wait);
+      if(callNow) result = fn.apply(context,args);
+    }else{
+      timer = setTimeout(()=>{
+        result = fn.apply(context,args);
+        timer = null
+      },wait);
     }
-  };
+  }
+  debounced.cancel = function(){
+    clearTimeout(timer);
+    timer = null;
+  }
+  return debounced
 }
 //应用：1.search搜索联想，用户在不断输入值时，用防抖来节约请求资源。
 //     2.window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次
