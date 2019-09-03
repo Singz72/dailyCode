@@ -12,6 +12,32 @@ word-break: normal;
 word-break: break-all;
 ```
 
+#### 文字省略号
+
+单行文本在超出父级div时出现省略号
+
+```css
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+```
+
+多行文本超出父级div时出现省略号（/*! autoprefixer: off */ 该属性是为了避免在react或者vue中-webkit-box-orient: vertical失效）
+
+```css
+{
+    display: -webkit-box;
+     /*! autoprefixer: off */
+    -webkit-box-orient: vertical;
+     /*! autoprefixer: on */
+    -webkit-line-clamp: 3; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+```
+
 #### 两端对齐
 
 ```css
