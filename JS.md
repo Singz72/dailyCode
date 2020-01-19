@@ -36,7 +36,6 @@ const decimalPoint = (number, digits = 2) => {
 
 ### 滚动穿透
 
-
 ```css
 .modal_open {
   position: fixed;
