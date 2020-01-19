@@ -1,50 +1,41 @@
-# JS
+# javascript
 
 常用函数和代码 & 收集的黑科技
 
-#### 返回指定范围的随机数(m-n 之间)的公式
+- [常用函数和代码](#常用函数和代码)
+- [黑科技](#黑科技)
+
+## 常用函数和代码
+
+- [截取到小数点 n 位](#截取到小数点n位)
+- [滚动穿透](#滚动穿透)
+- [判断 IP](#判断IP)
+- [防抖](#防抖)
+- [节流](#节流)
+- [浅拷贝](#浅拷贝)
+- [深拷贝](#深拷贝)
+- [阶乘递归函数](#阶乘递归函数)
+- [二维数组的转换](#二维数组的转换)
+- [Promise(简)](#Promise(简))
+- [IE8](#IE8)
+
+### 截取到小数点 n 位
 
 ```js
-Math.random() * (n - m) + m;
-```
-
-#### 快速去掉小数点
-
-```js
-1.1 | 0  //1
-2.2 | 0  //2
-```
-
-#### 奇偶
-
-```js
-//奇数-true 偶数-false
-!!(23 & 1) //true
-!!(22 & 1) //false
-!!(23 % 2) //true
-```
-
-#### 保留小数点
-
-```js
+/**
+ * @desc 默认直接截取小数点后的位数
+ * @param { number } number 需要转换的数字
+ * @param { number = 2 } digits 小数点位数
+ * @return { number } 截取之后的数
+ */
 const decimalPoint = (number, digits = 2) => {
-  let numStr = number + "";
-  return (
-    numStr
-      .trim()
-      .slice(
-        0,
-        numStr.indexOf(".") === -1
-          ? numStr.length
-          : numStr.indexOf(".") + digits + 1 
-     ) - 1 + 1
-  );
+  const pow = Math.pow(10, digits);
+  return parseInt(parseFloat(number) * pow) / pow;
 };
 ```
 
-#### 防止滚动穿透
+### 滚动穿透
 
-准备的css
 
 ```css
 .modal_open {
@@ -54,40 +45,52 @@ const decimalPoint = (number, digits = 2) => {
 ```
 
 ```js
-let ModalHelper = (function(bodyClass) {
-    let scrollTop;
-    return {
-        afterOpen: function() {
-            scrollTop = document.scrollingElement.scrollTop  ||
-                        document.documentElement.scrollTop || 
-                        document.body.scrollTop;
-            document.body.classList.add(bodyClass);
-            document.body.style.top = -scrollTop + 'px';
-        },
-        beforeClose: function() {
-            document.body.classList.remove(bodyClass);
-            document.scrollingElement.scrollTop = document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
-        }
-    };
-})('modal_open');
-
-// method
-modalSwitch: function(){
-    let self = this;
-    if( self.switchFlag === 'close' ){
-        ModalHelper.afterOpen();
-        self.switchFlag = 'open';
-    }else{
-        ModalHelper.beforeClose();
-        self.switchFlag = 'close';
+const ModalHelper = (function(bodyClass) {
+  let scrollTop;
+  /**
+   * @desc modal状态切换前后的scrollTop值
+   * @param { Function } afterOpen modal显示之后记录当前scrollTop
+   * @param { Function } beforeClose modal隐藏之前赋给scrollTop原来的值
+   */
+  return {
+    afterOpen: function() {
+      scrollTop =
+        document.scrollingElement.scrollTop ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      document.body.classList.add(bodyClass);
+      document.body.style.top = -scrollTop + "px";
+    },
+    beforeClose: function() {
+      document.body.classList.remove(bodyClass);
+      document.scrollingElement.scrollTop = document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
     }
-}
+  };
+})("modal_open");
+
+/**
+ * @desc modal状态变化时触发
+ * @event
+ */
+modalSwitch.addEventListener = () => {
+  const self = this;
+  if (self.switchFlag === "close") {
+    ModalHelper.afterOpen();
+    self.switchFlag = "open";
+  } else {
+    ModalHelper.beforeClose();
+    self.switchFlag = "close";
+  }
+};
 ```
 
-
-#### 判断 ip 输入正确与否
+### 判断 IP
 
 ```js
+/**
+ * @desc 判断IP输入格式是否正确
+ * @param { string } ip ip地址
+ */
 const IP = (ip = "0.0.0.0") => {
   ip = ip + "";
   const re = /^\d+\.\d+\.\d+\.\d+$/;
@@ -107,56 +110,57 @@ const IP = (ip = "0.0.0.0") => {
 };
 ```
 
-#### 防抖
+### 防抖
 
 ```js
 /**
- * @desc 函数防抖：任务频繁触发的情况下，只有任务触发的间隔超过指定间隔的时候，任务才会执行。
- * @param func 函数
- * @param wait 延迟执行毫秒数
- * @param immediate true 表立即执行，false 表非立即执行
+ * @desc 函数防抖：任务频繁触发的情况下，只有任务触发的间隔超过指定间隔的时候，任务才会执行
+ * @desc 常用应用一：search搜索联想，用户在不断输入值时，用防抖来节约请求资源
+ * @desc 常用应用二：window触发resize的时候，不断的调整浏览器窗口大小会不断的触发事件，用防抖来避免频繁触发
+ * @param { Function } fn 事件函数
+ * @param { number = 1000 } wait 停止触发事件的操作到函数真实执行的间隔时间
+ * @param { boolean = true} immediate 是否立即执行一次函数
  */
-//ps:当某些函数具有返回值时，在不使用全局变量的情况下该怎么拿到这个返回值呢？？？如果有这种需求，只能包裹函数，其中一个函数用以返回值，另一个用以使用该值？？？
-function debounce(fn,wait,immediate){
+const debounce = (fn, wait = 1000, immediate) => {
   let timer;
   let result;
-  let debounced = function(){
+  let debounced = function() {
     let context = this;
     let args = arguments;
-    if(timer) clearTimeout(timer);
-    if(immediate){
+    if (timer) clearTimeout(timer);
+    if (immediate) {
       const callNow = !timer;
       timer = setTimeout(() => {
         timer = null;
       }, wait);
-      if(callNow) result = fn.apply(context,args);
-    }else{
-      timer = setTimeout(()=>{
-        result = fn.apply(context,args);
-        timer = null
-      },wait);
+      if (callNow) result = fn.apply(context, args);
+    } else {
+      timer = setTimeout(() => {
+        result = fn.apply(context, args);
+        timer = null;
+      }, wait);
     }
-  }
-  debounced.cancel = function(){
+  };
+  debounced.cancel = function() {
     clearTimeout(timer);
     timer = null;
-  }
-  return debounced
-}
-//应用：1.search搜索联想，用户在不断输入值时，用防抖来节约请求资源。
-//     2.window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次
+  };
+  return debounced;
+};
 ```
 
-#### 节流
+### 节流
 
 ```js
 /**
- * @desc 函数节流：指定时间间隔内只会执行一次任务。
- * @param func 函数
- * @param wait 延迟执行毫秒数
- * @param type 1 表时间戳版，2 表定时器版
+ * @desc 函数节流：指定时间间隔内只会执行一次任务
+ * @desc 常用应用一：懒加载要监听计算滚动条的位置，使用节流按一定时间的频率获取
+ * @desc 常用应用二：用户点击提交按钮，假设我们知道接口大致的返回时间的情况下，我们使用节流，只允许一定时间内点击一次。
+ * @param { Function } fn 事件函数
+ * @param { number = 1000 } wait 两次事件触发的最小间隔时间
+ * @param { number = 1 } type 1 表时间戳版，2 表定时器版
  */
-function throttle(func, wait, type) {
+const throttle = (fn, wait, type) => {
   if (type === 1) {
     let previous = 0;
     return function() {
@@ -164,7 +168,7 @@ function throttle(func, wait, type) {
       let args = arguments;
       let now = Date.now();
       if (now - previous > wait) {
-        func.apply(context, args);
+        fn.apply(context, args);
         previous = now;
       }
     };
@@ -176,19 +180,15 @@ function throttle(func, wait, type) {
       if (!timeout) {
         timeout = setTimeout(() => {
           timeout = null;
-          func.apply(context, args);
+          fn.apply(context, args);
         }, wait);
       }
     };
   }
-}
-// 区别： 函数节流不管事件触发有多频繁，都会保证在规定时间内一定会执行一次真正的事件处理函数，而函数防抖只是在最后一次事件后才触发一次函数。 比如在页面的无限加载场景下，我们需要用户在滚动页面时，每隔一段时间发一次 Ajax 请求，而不是在用户停下滚动页面操作时才去请求数据。这样的场景，就适合用节流技术来实现。
-//应用：1.懒加载要监听计算滚动条的位置，使用节流按一定时间的频率获取。
-//     2.用户点击提交按钮，假设我们知道接口大致的返回时间的情况下，我们使用节流，只允许一定时间内点击一次。
-//tips：时间戳版本有bug，input框中高频输入的时候，会无法获取完框中的内容，使用计时器版便不会有此情况
+};
 ```
 
-#### 复制数组-浅拷贝
+### 浅拷贝
 
 ```js
 const arr = [1, 2, 3];
@@ -202,7 +202,7 @@ array = Array.from(arr);
 //以上方法均为浅拷贝，只能对每一项是原始类型的数据的数组进行拷贝，如果其中某些项包含引用类型，如数组（js 里的二维数组）和对象等，则拷贝后的也仅仅是引用原项
 ```
 
-#### 复制数组-深拷贝
+### 深拷贝
 
 ```js
 const objArr = [{ id: 1 }, { id: 2 }, { id: 3 }];
@@ -212,7 +212,38 @@ copyArr = JSON.parse(JSON.stringify(arr));
 //该方法存在一个问题，如果数组中某项中的属性值为 undefined，那么转换后则会变为 null
 ```
 
-#### 二维数组的转换
+### 阶乘递归函数
+
+针对该递归函数用`Memoization`法优化,在这里会用函数本身的一个`cache`来储存计算情况，达到减少计算次数的目的
+
+```js
+/**
+ * @desc 递归的研究
+ */
+const factorial = n => {
+  if (n == 0) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
+  }
+};
+function memfactorial(n) {
+  if (!memfactorial.cache) {
+    memfactorial.cache = {
+      "0": 0,
+      "1": 1
+    };
+  }
+  if (!memfactorial.cache.hasOwnProperty(n)) {
+    memfactorial.cache[n] = n * memfactorial(n - 1);
+  }
+  return memfactorial.cache[n];
+}
+```
+
+### 二维数组的转换
+
+重写
 
 ```js
 const twoDArr = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
@@ -231,98 +262,7 @@ console.log(newTwoDArr) //[1, 5, 9]
 //[4, 8, 12]
 ```
 
-#### 迭代对数组排序
-
-```js
-function merge(left, right) {
-  let result = []
-
-  while (left.length > 0 && right.length > 0) {
-    if (left[0] < right[0]) {
-      result.push(left.shift())
-    } else {
-      result.push(right.shift())
-    }
-  }
-  return result.concat(left).concat(right)
-}
-let d = [
-  300,
-  280,
-  250,
-  260,
-  270,
-  300,
-  550,
-  500,
-  400,
-  390,
-  380,
-  390,
-  111,
-  400,
-  500,
-  600,
-  750,
-  800,
-  700,
-  600,
-  400
-]
-
-function mergeSort(items) {
-  if (items.length == 1) {
-    return items
-  }
-
-  let work = []
-  for (let i = 0, len = items.length i < len i++) {
-    work.push([items[i]])
-  }
-  work.push([]) //如果数组长度为奇数
-
-  for (let lim = len lim > 1 lim = (lim + 1) / 2) {
-    for (let j = 0, k = 0 k < lim k += 2, j++) {
-      work[j] = merge(work[k], work[k + 1])
-    }
-    work[j] = [] //如果数组长度为奇数
-  }
-
-  return work[0]
-}
-mergeSort(d)
-```
-
-#### 阶乘递归函数
-
-```js
-function factorial(n) {
-  if (n == 0) {
-    return 1;
-  } else {
-    return n * factorial(n - 1);
-  }
-}
-```
-
-#### 针对该递归函数用`Memoization`法优化,在这里会用函数本身的一个`cache`来储存计算情况，达到减少计算次数的目的
-
-```js
-function memfactorial(n) {
-  if (!memfactorial.cache) {
-    memfactorial.cache = {
-      "0": 0,
-      "1": 1
-    };
-  }
-  if (!memfactorial.cache.hasOwnProperty(n)) {
-    memfactorial.cache[n] = n * memfactorial(n - 1);
-  }
-  return memfactorial.cache[n];
-}
-```
-
-#### 实现一个简易版本 Promise
+### Promise(简)
 
 ```js
 const PENDING = "pending";
@@ -396,48 +336,77 @@ newPromise.then(
 );
 ```
 
-#### bind 函数
+### IE8
 
 ```js
-if (!Function.prototype.bind) {
-  Function.prototype.bind = function() {
-    if (typeof this !== "function") {
-      throw new TypeError(
-        "Function.prototype.bind - what is trying to be bound is not callable"
-      );
-    }
-    var _this = this;
-    var obj = arguments[0];
-    var ags = Array.prototype.slice.call(arguments, 1);
-    return function() {
-      _this.apply(obj, ags);
+/**
+ * @desc bind函数，不存在便创建一个
+ */
+const bind = () => {
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function() {
+      if (typeof this !== "function") {
+        throw new TypeError(
+          "Function.prototype.bind - what is trying to be bound is not callable"
+        );
+      }
+      var _this = this;
+      var obj = arguments[0];
+      var ags = Array.prototype.slice.call(arguments, 1);
+      return function() {
+        _this.apply(obj, ags);
+      };
     };
-  };
-}
-```
+  }
+};
 
-#### addEventListener 函数
-
-```js
-function addEventListener(ele, event, fn) {
+/**
+ * @desc addEventListener函数判断
+ */
+const addEventListener = (ele, event, fn) => {
   if (ele.addEventListener) {
     ele.addEventListener(event, fn, false);
   } else {
     ele.attachEvent("on" + event, fn.bind(ele));
   }
-}
-```
+};
 
-#### removeEventListener 函数
-
-```js
-function removeEventListener(ele, event, fn) {
+/**
+ * @desc removeEventListener函数，不存在便创建一个
+ */
+const removeEventListener = (ele, event, fn) => {
   if (ele.removeEventListener) {
     ele.removeEventListener(event, fn, false);
   } else {
     ele.detachEvent("on" + event, fn.bind(ele));
   }
-}
+};
 ```
 
-#### updating...
+## 黑科技
+
+- [随机数(m-n)](#随机数(m-n))
+- [快速去掉小数点](#哭诉去掉小数点)
+- [快速判断奇偶](#快速判断奇偶)
+
+### 随机数(m-n)
+
+```js
+Math.random() * (n - m) + m;
+```
+
+### 快速去掉小数点
+
+```js
+1.1 | 0; //1
+2.2 | 0; //2
+```
+
+### 快速判断奇偶
+
+```js
+//奇数-true 偶数-false
+!!(23 & 1); //true
+!!(22 & 1); //false
+!!(23 % 2); //true
+```
