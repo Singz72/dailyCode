@@ -18,6 +18,8 @@
 - [二维数组的转换](#二维数组的转换)
 - [Promise(简)](#Promise(简))
 - [IE8](#IE8)
+- [邮箱验证](#邮箱验证)
+- [手机号验证](#手机号验证)
 
 ### 截取到小数点 n 位
 
@@ -380,6 +382,24 @@ const removeEventListener = (ele, event, fn) => {
     ele.detachEvent("on" + event, fn.bind(ele));
   }
 };
+```
+
+### 邮箱验证
+
+```js
+const validateEmail = email => {
+  const reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+  return reg.test(email);
+}
+```
+
+### 手机号验证
+
+```js
+const validatePhone = phone => {
+  const reg = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
+  return reg.test(phone);
+}
 ```
 
 ## 黑科技
