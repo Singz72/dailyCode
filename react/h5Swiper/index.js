@@ -9,19 +9,15 @@ const Comp = ({ video = "", images = [] }) => {
   const slideVideo = useRef(null);
   const pagination = useRef(null);
 
-  const onVideoPlay = () => {
+  const onVideoPlay = useCallback(() => {
     slideVideo.current.play();
     setPlayStatus(true);
-    return false;
-  };
+  }, []);
 
   const onVideoPause = useCallback(() => {
-    if (slideVideo.current) {
-      slideVideo.current.pause();
-      setPlayStatus(false);
-    }
-    return false;
-  }, [slideVideo]);
+    slideVideo.current.pause();
+    setPlayStatus(false);
+  }, []);
 
   useEffect(() => {
     if (images.length > 0) {
@@ -51,7 +47,7 @@ const Comp = ({ video = "", images = [] }) => {
           slideChangeTransitionStart: () => {
             onVideoPause();
             const sliderIndex = swiper.activeIndex;
-            if (sliderIndex == 0 && video) {
+            if (sliderIndex === 0 && video) {
               pagination.current.style.opacity = 0;
             } else {
               pagination.current.style.opacity = 1;
