@@ -72,9 +72,9 @@ const Comp = ({ video = "", images = [] }) => {
                     poster={images[0].picurl}
                     width="100%"
                     height="311"
-                    webkit-playsInline="true"
-                    playsInline="true"
-                    x5-playsInline="true"
+                    webkit-playsinline="true"
+                    playsInline={true}
+                    x5-playsinline="true"
                     // preload=""
                     x-webkit-airplay="true"
                     onClick={onVideoPause}
