@@ -1,0 +1,72 @@
+a {
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+.carousel {
+  position: relative;
+  .swiper {
+    width: 100%;
+    height: 311px;
+    &-slideVideo{
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    &-pagination {
+      width: 86px;
+      height: 46px;
+      background: rgba(83, 83, 83, 0.4);
+      font-size: 30px;
+      color: #ffffff;
+      border-radius: 78px;
+      line-height: 46px;
+      text-align: center;
+      position: absolute;
+      right: 18px;
+      left: inherit;
+      &-current {
+        font-family: PingFangSC-Regular;
+        font-size: 30px;
+      }
+      &-total {
+        font-size: 24px;
+      }
+      &-fraction {
+        left: 95%;
+        width: 35px;
+        transform: translateX(-100%);
+        font-size: 14px;
+        height: 20px;
+        padding: 5px;
+        line-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .swiper-pagination-current {
+          font-size: 14px;
+        }
+        .swiper-pagination-total {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .videoIsPlay {
+    display: none;
+  }
+  .video_btn {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Swiper from "swiper";
 import "../../common/swiper.min.css";
-import "./index.css";
+import "./index.less";
 import playerBtn from "./img/playerBtn.png";
 
 const Comp = ({ video = "", images = [] }) => {
