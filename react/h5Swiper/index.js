@@ -90,7 +90,7 @@ const Comp = ({ video = "", images = [] }) => {
                 </div>
               </div>
             ) : null}
-            {images.map((cur, idx) => {
+            {images.slice(1).map((cur, idx) => {
               return (
                 <div className="swiper-slide" key={`${cur}${idx + 1}`}>
                   <img src={cur.picurl} alt="商品图" />
