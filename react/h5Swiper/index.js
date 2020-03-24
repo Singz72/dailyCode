@@ -6,6 +6,7 @@ import playerBtn from "./img/playerBtn.png";
 
 const Comp = ({ video = "", images = [] }) => {
   const [playStatus, setPlayStatus] = useState(false);
+  const [pics, setPics] = useState([]);
   const slideVideo = useRef(null);
   const pagination = useRef(null);
 
@@ -20,7 +21,15 @@ const Comp = ({ video = "", images = [] }) => {
   }, []);
 
   useEffect(() => {
-    if (images.length > 0) {
+    if (video) {
+      setPics(images.slice(1));
+    } else {
+      setPics(images);
+    }
+  }, [images]);
+
+  useEffect(() => {
+    if (pics.length > 0) {
       const swiper = new Swiper(".swiper-container", {
         pagination: {
           el: ".swiper-pagination",
@@ -56,7 +65,7 @@ const Comp = ({ video = "", images = [] }) => {
         }
       });
     }
-  }, [images, video, onVideoPause]);
+  }, [pics, video, onVideoPause]);
 
   return (
     <div className="carousel">
@@ -90,7 +99,7 @@ const Comp = ({ video = "", images = [] }) => {
                 </div>
               </div>
             ) : null}
-            {images.slice(1).map((cur, idx) => {
+            {pics.map((cur, idx) => {
               return (
                 <div className="swiper-slide" key={`${cur}${idx + 1}`}>
                   <img src={cur.picurl} alt="商品图" />
