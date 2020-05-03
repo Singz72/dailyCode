@@ -1,3 +1,5 @@
+// 有待整理
+
 import React, { Fragment, useState, useEffect, useReducer } from "react";
 import axios from "axios";
 
@@ -7,20 +9,20 @@ const dataFetchReducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
-        isError: false
+        isError: false,
       };
     case "FETCH_SUCCESS":
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        data: action.payload,
       };
     case "FETCH_FAILURE":
       return {
         ...state,
         isLoading: false,
-        isError: true
+        isError: true,
       };
     default:
       throw new Error();
@@ -29,9 +31,9 @@ const dataFetchReducer = (state, action) => {
 
 /**
  * 自定义hooks数据请求
- * 
+ *
  * @param { string } initialUrl 请求链接
- * @param { onject } initialData 默认的数据结构
+ * @param { object } initialData 默认的数据结构
  * @return { object } state: data:返回的数据，isError:请求是否出错，isLoading:请求是否完成；setUrl:更新请求链接的方法
  */
 
@@ -40,7 +42,7 @@ const useFetch = (initialUrl, initialData) => {
   const [state, dispatch] = useReducer(dataFetchReducer, {
     data: initialData,
     isError: false,
-    isLoading: false
+    isLoading: false,
   });
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const useFetch = (initialUrl, initialData) => {
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: "FETCH_FALLURE" });
+          dispatch({ type: "FETCH_FAILURE" });
         }
       }
     };

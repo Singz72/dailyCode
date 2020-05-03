@@ -10,13 +10,11 @@
 - [截取到小数点 n 位](#截取到小数点n位)
 - [滚动穿透](#滚动穿透)
 - [判断 IP](#判断IP)
-- [防抖](#防抖)
-- [节流](#节流)
 - [浅拷贝](#浅拷贝)
 - [深拷贝](#深拷贝)
 - [阶乘递归函数](#阶乘递归函数)
 - [二维数组的转换](#二维数组的转换)
-- [Promise(简)](#Promise(简))
+- [Promise(简)](<#Promise(简)>)
 - [IE8](#IE8)
 - [邮箱验证](#邮箱验证)
 - [手机号验证](#手机号验证)
@@ -46,7 +44,7 @@ const decimalPoint = (number, digits = 2) => {
 ```
 
 ```js
-const ModalHelper = (function(bodyClass) {
+const ModalHelper = (function (bodyClass) {
   let scrollTop;
   /**
    * @desc modal状态切换前后的scrollTop值
@@ -54,7 +52,7 @@ const ModalHelper = (function(bodyClass) {
    * @param { Function } beforeClose modal隐藏之前赋给scrollTop原来的值
    */
   return {
-    afterOpen: function() {
+    afterOpen: function () {
       scrollTop =
         document.scrollingElement.scrollTop ||
         document.documentElement.scrollTop ||
@@ -62,10 +60,10 @@ const ModalHelper = (function(bodyClass) {
       document.body.classList.add(bodyClass);
       document.body.style.top = -scrollTop + "px";
     },
-    beforeClose: function() {
+    beforeClose: function () {
       document.body.classList.remove(bodyClass);
       document.scrollingElement.scrollTop = document.documentElement.scrollTop = document.body.scrollTop = scrollTop;
-    }
+    },
   };
 })("modal_open");
 
@@ -111,84 +109,6 @@ const IP = (ip = "0.0.0.0") => {
 };
 ```
 
-### 防抖
-
-```js
-/**
- * @desc 函数防抖：任务频繁触发的情况下，只有任务触发的间隔超过指定间隔的时候，任务才会执行
- * @desc 常用应用一：search搜索联想，用户在不断输入值时，用防抖来节约请求资源
- * @desc 常用应用二：window触发resize的时候，不断的调整浏览器窗口大小会不断的触发事件，用防抖来避免频繁触发
- * @param { Function } fn 事件函数
- * @param { number = 1000 } wait 停止触发事件的操作到函数真实执行的间隔时间
- * @param { boolean = true} immediate 是否立即执行一次函数
- */
-const debounce = (fn, wait = 1000, immediate) => {
-  let timer;
-  let result;
-  let debounced = function() {
-    let context = this;
-    let args = arguments;
-    if (timer) clearTimeout(timer);
-    if (immediate) {
-      const callNow = !timer;
-      timer = setTimeout(() => {
-        timer = null;
-      }, wait);
-      if (callNow) result = fn.apply(context, args);
-    } else {
-      timer = setTimeout(() => {
-        result = fn.apply(context, args);
-        timer = null;
-      }, wait);
-    }
-  };
-  debounced.cancel = function() {
-    clearTimeout(timer);
-    timer = null;
-  };
-  return debounced;
-};
-```
-
-### 节流
-
-```js
-/**
- * @desc 函数节流：指定时间间隔内只会执行一次任务
- * @desc 常用应用一：懒加载要监听计算滚动条的位置，使用节流按一定时间的频率获取
- * @desc 常用应用二：用户点击提交按钮，假设我们知道接口大致的返回时间的情况下，我们使用节流，只允许一定时间内点击一次。
- * @param { Function } fn 事件函数
- * @param { number = 1000 } wait 两次事件触发的最小间隔时间
- * @param { number = 1 } type 1 表时间戳版，2 表定时器版
- */
-const throttle = (fn, wait, type) => {
-  if (type === 1) {
-    let previous = 0;
-    return function() {
-      let context = this;
-      let args = arguments;
-      let now = Date.now();
-      if (now - previous > wait) {
-        fn.apply(context, args);
-        previous = now;
-      }
-    };
-  } else if (type === 2) {
-    let timeout;
-    return function() {
-      let context = this;
-      let args = arguments;
-      if (!timeout) {
-        timeout = setTimeout(() => {
-          timeout = null;
-          fn.apply(context, args);
-        }, wait);
-      }
-    };
-  }
-};
-```
-
 ### 浅拷贝
 
 ```js
@@ -198,7 +118,7 @@ let copyArr = [];
 copyArr = arr.slice();
 copyArr = arr.concat();
 Array.prototype.push.apply(copyArr, arr);
-copyArr = arr.map(v => v);
+copyArr = arr.map((v) => v);
 array = Array.from(arr);
 //以上方法均为浅拷贝，只能对每一项是原始类型的数据的数组进行拷贝，如果其中某些项包含引用类型，如数组（js 里的二维数组）和对象等，则拷贝后的也仅仅是引用原项
 ```
@@ -221,7 +141,7 @@ copyArr = JSON.parse(JSON.stringify(arr));
 /**
  * @desc 递归的研究
  */
-const factorial = n => {
+const factorial = (n) => {
   if (n == 0) {
     return 1;
   } else {
@@ -232,7 +152,7 @@ function memfactorial(n) {
   if (!memfactorial.cache) {
     memfactorial.cache = {
       "0": 0,
-      "1": 1
+      "1": 1,
     };
   }
   if (!memfactorial.cache.hasOwnProperty(n)) {
@@ -281,7 +201,7 @@ function MyPromise(fn) {
     if (that.state === PENDING) {
       that.state = RESOLVED;
       that.value = value;
-      that.resolvedCallbacks.map(cb => cb(that.value));
+      that.resolvedCallbacks.map((cb) => cb(that.value));
     }
   }
 
@@ -289,7 +209,7 @@ function MyPromise(fn) {
     if ((that.state = PENDING)) {
       that.state = REJECTED;
       that.value = value;
-      that.rejectedCallbacks.map(cb => cb(that.value));
+      that.rejectedCallbacks.map((cb) => cb(that.value));
     }
   }
 
@@ -299,13 +219,13 @@ function MyPromise(fn) {
     reject(e);
   }
 }
-MyPromise.prototype.then = function(onResolve, onReject) {
+MyPromise.prototype.then = function (onResolve, onReject) {
   const that = this;
-  onResolve = typeof onResolve === "function" ? onResolve : v => v;
+  onResolve = typeof onResolve === "function" ? onResolve : (v) => v;
   onReject =
     typeof onReject === "function"
       ? onReject
-      : v => {
+      : (v) => {
           throw v;
         };
 
@@ -328,10 +248,10 @@ let newPromise = new MyPromise((resolve, reject) => {
 });
 
 newPromise.then(
-  v => {
+  (v) => {
     console.log(v);
   },
-  v => {
+  (v) => {
     console.log(v);
   }
 );
@@ -345,7 +265,7 @@ newPromise.then(
  */
 const bind = () => {
   if (!Function.prototype.bind) {
-    Function.prototype.bind = function() {
+    Function.prototype.bind = function () {
       if (typeof this !== "function") {
         throw new TypeError(
           "Function.prototype.bind - what is trying to be bound is not callable"
@@ -354,7 +274,7 @@ const bind = () => {
       var _this = this;
       var obj = arguments[0];
       var ags = Array.prototype.slice.call(arguments, 1);
-      return function() {
+      return function () {
         _this.apply(obj, ags);
       };
     };
@@ -387,24 +307,24 @@ const removeEventListener = (ele, event, fn) => {
 ### 邮箱验证
 
 ```js
-const validateEmail = email => {
+const validateEmail = (email) => {
   const reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
   return reg.test(email);
-}
+};
 ```
 
 ### 手机号验证
 
 ```js
-const validatePhone = phone => {
+const validatePhone = (phone) => {
   const reg = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
   return reg.test(phone);
-}
+};
 ```
 
 ## 黑科技
 
-- [随机数(m-n)](#随机数(m-n))
+- [随机数(m-n)](<#随机数(m-n)>)
 - [快速去掉小数点](#哭诉去掉小数点)
 - [快速判断奇偶](#快速判断奇偶)
 
